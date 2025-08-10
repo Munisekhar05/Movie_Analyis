@@ -1,0 +1,38 @@
+industry,release_year,title,revenue,cumulative_revenue
+Bollywood,1955,"Pather Panchali",100000.00,100000.00
+Bollywood,1995,"Dilwale Dulhania Le Jayenge",2000.00,102000.00
+Bollywood,2001,"Kabhi Khushi Kabhie Gham",1360.00,103360.00
+Bollywood,2003,"Munna Bhai M.B.B.S.",410.00,103770.00
+Bollywood,2007,"Taare Zameen Par",1350.00,105120.00
+Bollywood,2009,"3 Idiots",4000.00,109120.00
+Bollywood,2014,PK,8540.00,117660.00
+Bollywood,2015,"Bajirao Mastani ",3.50,117663.50
+Bollywood,2015,"Bajrangi Bhaijaan",11690.00,129353.50
+Bollywood,2015,"Baahubali: The Beginning",6.50,129360.00
+Bollywood,2018,"Race 3",3.10,129363.10
+Bollywood,2018,Sanju,5.90,129369.00
+Bollywood,2021,Shershaah,950.00,130319.00
+Bollywood,2021,"Pushpa: The Rise - Part 1",3.60,130322.60
+Bollywood,2022,"The Kashmir Files",3409.00,133731.60
+Bollywood,2022,"K.G.F: Chapter 2",12.50,133744.10
+Bollywood,2022,RRR,12.00,133756.10
+Hollywood,1946,"It's a Wonderful Life",3.30,3.30
+Hollywood,1972,"The Godfather",291.00,294.30
+Hollywood,1993,"Jurassic Park",1046.00,1340.30
+Hollywood,1993,"Schindler's List",322.20,1662.50
+Hollywood,1994,"The Shawshank Redemption",73.30,1735.80
+Hollywood,1997,Titanic,2202.00,3937.80
+Hollywood,2000,Gladiator,460.50,4398.30
+Hollywood,2006,"The Pursuit of Happyness",307.10,4705.40
+Hollywood,2008,"The Dark Knight",1006.00,5711.40
+Hollywood,2009,Avatar,2847.00,8558.40
+Hollywood,2011,"Captain America: The First Avenger",370.60,8929.00
+Hollywood,2013,"Thor: The Dark World ",644.80,9573.80
+Hollywood,2014,Interstellar,701.80,10275.60
+Hollywood,2014,"Captain America: The Winter Soldier",714.40,10990.00
+Hollywood,2017,"Thor: Ragnarok ",854.00,11844.00
+Hollywood,2018,"Avengers: Infinity War",2048.00,13892.00
+Hollywood,2019,"Avengers: Endgame",2798.00,16690.00
+Hollywood,2019,Parasite,263.10,16953.10
+Hollywood,2022,"Doctor Strange in the Multiverse of Madness",954.80,17907.90
+Hollywood,2022,"Thor: Love and Thunder ",670.00,18577.90
