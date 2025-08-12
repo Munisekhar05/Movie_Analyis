@@ -7,5 +7,4 @@ SELECT *
 FROM movies
 WHERE title LIKE '%Avenger%';
 
-Output :
-![Alt text](https://github.com/Munisekhar05/Movie_Analyis/blob/main/Output-2.png)
+Output - ![Alt text](https://github.com/Munisekhar05/Movie_Analyis/blob/main/Output-2.png)
