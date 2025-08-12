@@ -9,4 +9,4 @@ WHERE title LIKE '%Avenger%';
 
 demo
 
-![Alt text](Output-2.png)
+![Alt text](https://raw.githubusercontent.com/Munisekhar05/Movie_Analysis/main/Output-2.png)
