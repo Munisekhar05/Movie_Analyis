@@ -9,4 +9,4 @@ WHERE title LIKE '%Avenger%';
 
 demo
 
-Output - ![Alt text](Output-2.png)
+![Alt text](Output-2.png)
