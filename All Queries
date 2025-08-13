@@ -6,7 +6,7 @@ derived data, subqueries, CTE and Window Functions
 
 ---
 
-## Retrieve Data Using SELECT, WHERE, DISTINCT
+## Retrieve Data Using SELECT, WHERE, DISTINCT---------------------------
 
 ```sql
 -- 1. Print all movie titles and release year for all Marvel Studios movies
@@ -28,3 +28,193 @@ WHERE title = "The Godfather";
 SELECT DISTINCT studio 
 FROM movies 
 WHERE industry = "Bollywood";
+
+##NUMERIC QUERIES (FILTERING & ORDERING)------------------------
+
+-- 1. Print all movies ordered by release year (latest first)
+SELECT * 
+FROM movies 
+ORDER BY release_year DESC;
+
+-- 2. All movies released in 2022
+SELECT * 
+FROM movies 
+WHERE release_year = 2022;
+
+-- 3. All movies released after 2020
+SELECT * 
+FROM movies 
+WHERE release_year > 2020;
+
+-- 4. All movies after 2020 with rating > 8
+SELECT * 
+FROM movies 
+WHERE release_year > 2020 AND imdb_rating > 8;
+
+-- 5. Movies by Marvel Studios and Hombale Films
+SELECT * 
+FROM movies 
+WHERE studio IN ("Marvel Studios", "Hombale Films");
+
+-- 6. All Thor movies ordered by release year
+SELECT title, release_year 
+FROM movies 
+WHERE title LIKE '%Thor%' 
+ORDER BY release_year ASC;
+
+-- 7. All movies not from Marvel Studios
+SELECT * 
+FROM movies 
+WHERE studio != "Marvel Studios";
+
+##SUMMARY & ANALYTICS 
+-- 1. Count of movies released between 2015 and 2022
+SELECT COUNT(*) 
+FROM movies 
+WHERE release_year BETWEEN 2015 AND 2022;
+
+-- 2. Minimum and maximum release year
+SELECT 
+    MIN(release_year) AS min_year,
+    MAX(release_year) AS max_year
+FROM movies;
+
+-- 3. Year-wise movie count (latest first)
+SELECT release_year, COUNT(*) AS movies_count 
+FROM movies 
+GROUP BY release_year 
+ORDER BY release_year DESC;
+
+
+## DERIVED DATA 
+
+-- 1. Calculate profit and profit percentage for all movies
+SELECT 
+    *, 
+    (revenue - budget) AS profit, 
+    (revenue - budget) * 100 / budget AS profit_pct 
+FROM financials;
+
+##JOINS (TWO_TABLES)
+
+-- 1. Show all movies with their language names
+SELECT m.title, l.name 
+FROM movies m 
+JOIN languages l USING (language_id);
+
+-- 2. Show all Telugu movies
+SELECT title 
+FROM movies m 
+LEFT JOIN languages l 
+    ON m.language_id = l.language_id
+WHERE l.name = "Telugu";
+
+-- 3. Show language and number of movies released in it
+SELECT 
+    l.name, 
+    COUNT(m.movie_id) AS no_movies
+FROM languages l
+LEFT JOIN movies m USING (language_id)        
+GROUP BY language_id
+ORDER BY no_movies DESC;
+
+## JOINS (MORE_THAN_2_TABLES)
+
+-- 1. Hindi movies sorted by revenue (in millions)
+SELECT 
+    title, revenue, currency, unit, 
+    CASE 
+        WHEN unit = "Thousands" THEN ROUND(revenue / 1000, 2)
+        WHEN unit = "Billions" THEN ROUND(revenue * 1000, 2)
+        ELSE revenue 
+    END AS revenue_mln
+FROM movies m
+JOIN financials f ON m.movie_id = f.movie_id
+JOIN languages l ON m.language_id = l.language_id
+WHERE l.name = "Hindi"
+ORDER BY revenue_mln DESC;
+
+##SUBQUERIES 
+
+-- 1. Movies with minimum and maximum release year
+SELECT * 
+FROM movies 
+WHERE release_year IN (
+    (SELECT MIN(release_year) FROM movies),
+    (SELECT MAX(release_year) FROM movies)
+);
+
+-- 2. Movies with IMDb rating higher than average
+SELECT * 
+FROM movies 
+WHERE imdb_rating > (SELECT AVG(imdb_rating) FROM movies);
+
+##COMMON_TABLE_EXPRESSIONS(CTE)
+
+-- 1. Hollywood movies after 2000 with profit > 500 million
+WITH cte AS (
+    SELECT title, release_year, (revenue - budget) AS profit
+    FROM movies m
+    JOIN financials f ON m.movie_id = f.movie_id
+    WHERE release_year > 2000 AND industry = "Hollywood"
+)
+SELECT * 
+FROM cte 
+WHERE profit > 500;
+
+##WINDOW_FUNCTIONS 
+
+--1.Rank Movies by IMDB rating within each industry 
+SELECT 
+    m.title,
+    m.industry,
+    m.imdb_rating,
+    RANK() OVER (PARTITION BY m.industry ORDER BY m.imdb_rating DESC) AS rank_in_industry
+FROM movies m;
+
+--2.Find top-grossing movie(s) per studio
+SELECT 
+    m.studio,
+    m.title,
+    f.revenue,
+    DENSE_RANK() OVER (PARTITION BY m.studio ORDER BY f.revenue DESC) AS revenue_rank
+FROM movies m
+JOIN financials f ON m.movie_id = f.movie_id;
+
+--3.Calculate cumulative revenue per industry by release year
+SELECT 
+    m.industry,
+    m.release_year,
+    m.title,
+    f.revenue,
+    SUM(f.revenue) OVER (PARTITION BY m.industry ORDER BY m.release_year ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumulative_revenue
+FROM movies m
+JOIN financials f ON m.movie_id = f.movie_id;
+
+--4.Find average IMDb rating per language and compare each movie to that average
+SELECT 
+    m.title,
+    l.name AS language,
+    m.imdb_rating,
+    ROUND(AVG(m.imdb_rating) OVER (PARTITION BY l.name), 2) AS avg_rating_in_language,
+    m.imdb_rating - AVG(m.imdb_rating) OVER (PARTITION BY l.name) AS rating_difference
+FROM movies m
+JOIN languages l ON m.language_id = l.language_id;
+
+--5.Find the oldest actor in each movie using window functions
+SELECT 
+    m.title,
+    a.name AS actor_name,
+    a.birth_year
+FROM (
+    SELECT 
+        ma.movie_id,
+        ma.actor_id,
+        a.birth_year,
+        RANK() OVER (PARTITION BY ma.movie_id ORDER BY a.birth_year ASC) AS birth_rank
+    FROM movie_actor ma
+    JOIN actors a ON ma.actor_id = a.actor_id
+) oldest
+JOIN movies m ON m.movie_id = oldest.movie_id
+JOIN actors a ON a.actor_id = oldest.actor_id
+WHERE oldest.birth_rank = 1;
