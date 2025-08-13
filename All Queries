@@ -67,7 +67,7 @@ SELECT *
 FROM movies 
 WHERE studio != "Marvel Studios";
 
-##SUMMARY & ANALYTICS 
+##SUMMARY & ANALYTICS --------------------------------------
 -- 12. Count of movies released between 2015 and 2022
 SELECT COUNT(*) 
 FROM movies 
@@ -86,7 +86,7 @@ GROUP BY release_year
 ORDER BY release_year DESC;
 
 
-## DERIVED DATA 
+## DERIVED DATA -------------------------------------------------
 
 -- 15. Calculate profit and profit percentage for all movies
 SELECT 
@@ -95,7 +95,7 @@ SELECT
     (revenue - budget) * 100 / budget AS profit_pct 
 FROM financials;
 
-##JOINS (TWO_TABLES)
+##JOINS (TWO_TABLES)----------------------------------------------
 
 -- 16. Show all movies with their language names
 SELECT m.title, l.name 
@@ -118,7 +118,7 @@ LEFT JOIN movies m USING (language_id)
 GROUP BY language_id
 ORDER BY no_movies DESC;
 
-## JOINS (MORE_THAN_2_TABLES)
+## JOINS (MORE_THAN_2_TABLES)------------------------------------------------
 
 -- 19. Hindi movies sorted by revenue (in millions)
 SELECT 
@@ -134,7 +134,7 @@ JOIN languages l ON m.language_id = l.language_id
 WHERE l.name = "Hindi"
 ORDER BY revenue_mln DESC;
 
-##SUBQUERIES 
+##SUBQUERIES ------------------------------------------------------------------
 
 -- 20. Movies with minimum and maximum release year
 SELECT * 
@@ -149,7 +149,7 @@ SELECT *
 FROM movies 
 WHERE imdb_rating > (SELECT AVG(imdb_rating) FROM movies);
 
-##COMMON_TABLE_EXPRESSIONS(CTE)
+##COMMON_TABLE_EXPRESSIONS(CTE)---------------------------------------------------
 
 -- 22. Hollywood movies after 2000 with profit > 500 million
 WITH cte AS (
@@ -162,7 +162,7 @@ SELECT *
 FROM cte 
 WHERE profit > 500;
 
-##WINDOW_FUNCTIONS 
+##WINDOW_FUNCTIONS -------------------------------------------------------------------
 
 --23.Rank Movies by IMDB rating within each industry 
 SELECT 
