@@ -6,7 +6,8 @@ derived data, subqueries, CTE and Window Functions
 
 ---
 
-## 2.1 Retrieve Data Using SELECT, WHERE, DISTINCT
+## Retrieve Data Using SELECT, WHERE, DISTINCT
+
 ```sql
 -- 1. Print all movie titles and release year for all Marvel Studios movies
 SELECT title, release_year 
